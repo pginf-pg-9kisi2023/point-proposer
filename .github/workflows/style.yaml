@@ -1,0 +1,48 @@
+name: Style
+on:
+  push:
+  pull_request:
+
+jobs:
+  style:
+    if: >-
+      github.repository_owner != 'pginf-pg-9kisi2023'
+      || github.event_name != 'push'
+      || github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    steps:
+      - name: Set git to use LF
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - name: Clone the repository
+        uses: actions/checkout@v3
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.nuget/packages
+            ~/.dotnet/tools
+          key: ${{ runner.os }}-nuget-${{ github.workflow }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: ${{ runner.os }}-nuget-
+
+      - name: Install dotnet-format
+        run: |
+          if (!(Test-Path -Path ~/.dotnet/tools/dotnet-format.exe)) {
+            dotnet tool install -g dotnet-format --version "7.*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json
+          }
+
+      - name: Add dotnet format problem matcher
+        uses: xt0rted/dotnet-format-problem-matcher@v1
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Run build with warnings as errors
+        run: dotnet build --no-restore /warnaserror
+
+      - name: Run dotnet format
+        run: dotnet-format --no-restore --verify-no-changes --verbosity diagnostic
+        if: always()
