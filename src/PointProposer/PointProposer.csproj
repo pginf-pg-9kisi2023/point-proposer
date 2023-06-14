@@ -2,7 +2,7 @@
   <PropertyGroup>
     <VersionPrefix>0.1.0</VersionPrefix>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishSingleFile>true</PublishSingleFile>
@@ -19,5 +19,8 @@
     <None Update="example.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 </Project>
