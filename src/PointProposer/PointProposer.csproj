@@ -15,4 +15,9 @@
     <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
     <Platforms>x64</Platforms>
   </PropertyGroup>
+  <ItemGroup>
+    <None Update="example.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

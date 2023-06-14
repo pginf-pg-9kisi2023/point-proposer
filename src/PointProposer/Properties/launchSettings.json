@@ -2,7 +2,7 @@
   "profiles": {
     "PointProposer": {
       "commandName": "Project",
-      "commandLineArgs": "1 jpg1.jpg 1 aaa"
+      "commandLineArgs": "1 example.png 2 TOP_LT TOP_RT"
     }
   }
 }
