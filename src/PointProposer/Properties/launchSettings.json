@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PointProposer": {
+      "commandName": "Project",
+      "commandLineArgs": "1 example.png 2 TOP_LT TOP_RT"
+    }
+  }
+}
