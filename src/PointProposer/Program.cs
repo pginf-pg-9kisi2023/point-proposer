@@ -10,6 +10,13 @@ namespace PointProposer
         static void Main(string[] args)
         {
             var random = new Random();
+            // allow reproducibility by allowing to provide initialization seed
+            var seed = Environment.GetEnvironmentVariable("POINT_PROPOSER_SEED");
+            if (!String.IsNullOrEmpty(seed))
+            {
+                random = new(Int32.Parse(seed, CultureInfo.InvariantCulture));
+            }
+
             var imageCount = Int32.Parse(args[0], CultureInfo.InvariantCulture);
             var i = 1;
             while (i < args.Length)
