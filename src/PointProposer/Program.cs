@@ -1,6 +1,8 @@
 using System;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 
 
 namespace PointProposer
@@ -17,20 +19,20 @@ namespace PointProposer
                 random = new(Int32.Parse(seed, CultureInfo.InvariantCulture));
             }
 
-            var imageCount = Int32.Parse(args[0], CultureInfo.InvariantCulture);
-            var i = 1;
-            while (i < args.Length)
+            using var inputStream = Console.OpenStandardInput();
+            using var reader = new StreamReader(inputStream);
+            string? line;
+            while ((line = reader.ReadLine()) != null)
             {
-                string imgPath = args[i++];
+                var data = line.Split("\0");
+                var imgPath = data[0];
                 using var img = new Bitmap(imgPath);
-                Console.WriteLine(imgPath);
-
-                var labelCount = Int32.Parse(args[i++], CultureInfo.InvariantCulture);
-                for (var k = 0; k < labelCount; k++)
+                foreach (var labelName in data.Skip(1))
                 {
                     Console.WriteLine(
-                        "{0} {1} {2}",
-                        args[i++],
+                        "{0}\0{1}\0{2}\0{3}",
+                        imgPath,
+                        labelName,
                         random.Next(0, img.Width),
                         random.Next(0, img.Height)
                     );
