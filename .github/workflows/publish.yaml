@@ -1,4 +1,4 @@
-name: Publish to GitHub Packages
+name: Publish to NuGet Gallery
 on:
   push:
     tags:
@@ -8,6 +8,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
+      contents: read
       packages: write
     steps:
       - name: Clone the repository
@@ -19,6 +20,6 @@ jobs:
       - name: Pack
         run: dotnet pack -c Release --no-build
 
-      - name: Push to NuGet.org
+      - name: Push to NuGet Gallery
         run: |
           dotnet nuget push "artifacts\bin\PointProposer\x64\Release\*.nupkg" --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
